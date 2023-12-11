@@ -12,10 +12,12 @@ import {
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import React, { useState } from "react"
 import DropzoneComponent from "react-dropzone"
+import { toast, useToast } from "./ui/use-toast"
 
 const Dropzone = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { isLoaded, isSignedIn, user } = useUser()
+  const { toast } = useToast()
 
   const onDrop = (acceptedFiles: File[]) => {
     acceptedFiles.forEach((file) => {
@@ -31,30 +33,43 @@ const Dropzone = () => {
   }
 
   const uploadPost = async (selectedFile: File) => {
-    if (isLoading) return
-    if (!user) return
-    setIsLoading(true)
+    try {
+      if (isLoading) return
+      if (!user) return
+      setIsLoading(true)
 
-    //do what you need to do
-    const docRef = await addDoc(collection(db, "users", user.id, "files"), {
-      userId: user.id,
-      fileName: selectedFile.name,
-      fullName: user.fullName,
-      profileImg: user.imageUrl,
-      timestamp: serverTimestamp(),
-      type: selectedFile.type,
-      size: selectedFile.size,
-    })
-
-    const imageRef = ref(storage, `users/${user.id}/files/${docRef.id}`)
-    uploadBytes(imageRef, selectedFile).then(async (snapshot) => {
-      const downloadURL = await getDownloadURL(imageRef)
-
-      await updateDoc(doc(db, "users", user.id, "files", docRef.id), {
-        downloadURL: downloadURL,
+      //do what you need to do
+      const docRef = await addDoc(collection(db, "users", user.id, "files"), {
+        userId: user.id,
+        fileName: selectedFile.name,
+        fullName: user.fullName,
+        profileImg: user.imageUrl,
+        timestamp: serverTimestamp(),
+        type: selectedFile.type,
+        size: selectedFile.size,
       })
-    })
-    setIsLoading(false)
+
+      const imageRef = ref(storage, `users/${user.id}/files/${docRef.id}`)
+      uploadBytes(imageRef, selectedFile).then(async (snapshot) => {
+        const downloadURL = await getDownloadURL(imageRef)
+
+        await updateDoc(doc(db, "users", user.id, "files", docRef.id), {
+          downloadURL: downloadURL,
+        })
+      })
+      toast({
+        title: "Success",
+        description: "Successfully uploaded",
+      })
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Error while trying to upload the file",
+      })
+    }
   }
 
   //max file size 20MB

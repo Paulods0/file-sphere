@@ -5,26 +5,26 @@ import Link from "next/link"
 export default function Home() {
   return (
     <main className=" px-12 py-8 min-h-screen">
-      <section className="w-full p-8 bg-white shadow-lg dark:bg-slate-900 grid  lg:grid-cols-2 lg:place-items-center">
+      <section className="w-full p-8 bg-slate-900 shadow-lg dark:bg-slate-900 grid  lg:grid-cols-2 lg:place-items-center">
         <div className="flex flex-col w-full ">
-          <h1 className="text-2xl text-black dark:text-white  lg:text-3xl poppins font-bold mb-6 lg:mb-10">
+          <h1 className="text-2xl text-white dark:text-white  lg:text-3xl poppins font-bold mb-6 lg:mb-10">
             Welcome to File Sphere!
           </h1>
-          <h3 className="poppins font-semibold text-lg text-black dark:text-white lg:text-xl mb-4 lg:mb-6">
+          <h3 className="poppins font-semibold text-lg text-white dark:text-white lg:text-xl mb-4 lg:mb-6">
             Embark on a Seamless Journey: Navigating the Expansive Galaxy of
             File Management with Ease in Your Personal Cosmos, Welcome to File
             Sphere!
           </h3>
-          <p className=" font-thin w-full lg:w-[480px] poppins text-black dark:text-white">
+          <p className=" font-thin w-full lg:w-[480px] poppins text-white dark:text-white">
             🌐Your Personal File Universe 🚀 We're thrilled to have you on board
             with File Sphere – your go-to destination for seamless file
             management and collaboration. Say goodbye to the limitations of
             traditional file storage, and step into a world where your
             documents, photos, and projects orbit around you effortlessly.
-          </p>
+          </p>    
           <Link
             href={"/dashboard"}
-            className="self-start mt-8 flex items-center p-4  bg-black text-white dark:bg-white  dark:text-black "
+            className="self-start mt-8 flex items-center p-4  bg-white text-black dark:bg-white  dark:text-black "
           >
             Try it for free!
             <span>
@@ -39,9 +39,9 @@ export default function Home() {
               quality={80}
               width={500}
               height={500}
-              src={"/3.jpg"}
+              src={"/hero-filesphere.png"}
               alt="Hero image"
-              className="w-full rounded-xl h-full absolute object-cover inset-0"
+              className="w-full rounded-xl h-full absolute object-contain shadow-lg inset-0"
             />
           </div>
         </div>

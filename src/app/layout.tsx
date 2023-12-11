@@ -4,6 +4,8 @@ import "./globals.css"
 import { ClerkProvider } from "@clerk/nextjs"
 import Header from "@/components/Header"
 import { ThemeProvider } from "@/components/ThemeProvider"
+import { Toast } from "@/components/ui/toast"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 const poppins = Poppins({ weight: "500", subsets: ["latin"] })
@@ -21,9 +23,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body
-          className={`${inter.className} ${poppins.className} `}
-        >
+        <body className={`${inter.className} ${poppins.className} `}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -31,8 +31,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Header />
+            {children}
+            <Toaster />
           </ThemeProvider>
-          {children}
         </body>
       </html>
     </ClerkProvider>
